@@ -224,6 +224,17 @@
       "cost": 0,
       "services": [],
       "id": 22
+    },
+    {
+      "name": "dgsdfg",
+      "budget": "34546",
+      "category": {
+        "id": "1",
+        "name": "Infra"
+      },
+      "cost": 0,
+      "services": [],
+      "id": 23
     }
   ],
   "categories": [
