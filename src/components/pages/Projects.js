@@ -43,7 +43,10 @@ function Projects() {
       headers: {
         'Content-type': 'application/json'
       },
-    }).then(resp => resp.json())
+    }).then(resp => {
+      resp.json()
+      console.log(resp)
+    })
     .then(data => {
       setProjects(projects.filter((project) => project.id !== id))
       setProjectMessage('Projeto removido do sistema!')
