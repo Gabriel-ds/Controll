@@ -12,8 +12,9 @@ function Project() {
 
   const [project, setProject] = useState([]);
   const [showProjectFrom, setShowProjectForm] = useState(false);
-  const [messege, setMessege] = useState('')
-  const [type, setType] = useState('')
+  const [showServiceFrom, setShowServiceForm] = useState(false);
+  const [messege, setMessege] = useState("");
+  const [type, setType] = useState("");
 
   useEffect(() => {
     setInterval(() => {
@@ -32,31 +33,35 @@ function Project() {
   }, [id]);
 
   const editPost = (project) => {
-    // validação de custo
-    if(project.budget < project.cost) {
-      setMessege('O orçamento não pode ser menor que o custo do projeto!')
-      setType('error')
-      return false
+    setMessege("");
+    if (project.budget < project.cost) {
+      setMessege("O orçamento não pode ser menor que o custo do projeto!");
+      setType("error");
+      return false;
     }
     fetch(`http://localhost:5000/projects/${id}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body : JSON.stringify(project)
+      body: JSON.stringify(project),
     })
-    .then((resp) => resp.json())
-    .then((data) => {
-      setProject(data)
-      setShowProjectForm(false)
-      setMessege('Projeto atualizado!')
-      setType('success')
-    })
-    .catch((err) => console.log(err))
-  }
+      .then((resp) => resp.json())
+      .then((data) => {
+        setProject(data);
+        setShowProjectForm(false);
+        setMessege("Projeto atualizado!");
+        setType("success");
+      })
+      .catch((err) => console.log(err));
+  };
 
   const toogleProjectForm = () => {
     setShowProjectForm(!showProjectFrom);
+  };
+
+  const toogleServiceForm = () => {
+    setShowServiceForm(!showServiceFrom);
   };
 
   return (
@@ -64,7 +69,7 @@ function Project() {
       {project.name ? (
         <div className={styles.project_details}>
           <Container customClass="column">
-            {messege ? <Message type={type} msg={messege} /> : '' }
+            {messege ? <Message type={type} msg={messege} /> : ""}
             <div className={styles.details_container}>
               <h1>Projeto: {project.name}</h1>
               <button className={styles.btn} onClick={toogleProjectForm}>
@@ -93,6 +98,19 @@ function Project() {
                 </div>
               )}
             </div>
+            <div className={styles.service_form_container}>
+              <h2>Adicione um serviço:</h2>
+              <button className={styles.btn} onClick={toogleServiceForm}>
+                {!showServiceFrom ? "Adicionar Serviço" : "Fechar"}
+              </button>
+              <div className={styles.project_info}>
+                {showServiceFrom && <div>Formulário de Serviço</div>}
+              </div>
+            </div>
+            <h2>Serviços:</h2>
+            <Container customClass="start">
+              <p>Itens de serviços</p>
+            </Container>
           </Container>
         </div>
       ) : (
